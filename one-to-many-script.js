@@ -41,8 +41,17 @@ async function run() {
     console.log(product2.toJSON());
     console.log(product3.toJSON());
     console.log(product4.toJSON());
+
+    const result = await Category.findOne({
+      where: { id: category.id },
+      include: Product,
+    });
+    console.log(JSON.stringify(result.toJSON(), null, 2));
   } catch (err) {
     console.error("Unable to connect to the database:", err);
+  } finally {
+    await sequelize.close();
+    console.log("Database connection closed");
   }
 }
 run();
